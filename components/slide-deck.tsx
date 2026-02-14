@@ -319,7 +319,7 @@ export default function SlideDeck() {
         >
           <video
             className="max-w-[520px] w-full"
-            src="/brand/aaspinning.mp4"
+            src="/brand/aaspinblack.mp4"
             autoPlay
             muted
             playsInline
