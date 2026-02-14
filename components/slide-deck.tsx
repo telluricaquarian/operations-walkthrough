@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Slide } from "./slide"
 import {
   ChevronLeft,
@@ -241,6 +242,11 @@ export default function SlideDeck() {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
+      {/* Brand Mark */}
+      <div className="fixed top-6 left-6 z-50 opacity-80">
+        <Image src="/brand/aasmark.png" alt="Areculateir" width={36} height={36} />
+      </div>
+
       {/* Navigation Controls */}
       <div className="fixed top-4 right-4 z-50 flex items-center space-x-2.5">
         <span className="text-zinc-400 font-mono text-xs">

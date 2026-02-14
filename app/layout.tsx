@@ -6,9 +6,12 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Software 3.0 - Slide Deck",
-  description: "A minimalist exploration of the new programming paradigm",
-    generator: 'v0.app'
+  title: "Areculateir — Operations Walkthrough",
+  description: "A systems-level method for building and shipping modern brands",
+  generator: "v0.app",
+  icons: {
+    icon: "/brand/aasmark.png",
+  },
 }
 
 export default function RootLayout({
