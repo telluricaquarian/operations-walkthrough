@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import { Slide } from "./slide"
 import {
@@ -148,6 +148,28 @@ const slides = [
 ]
 
 export default function SlideDeck() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [isFadingOut, setIsFadingOut] = useState(false)
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const beginFadeOut = useCallback(() => {
+    if (isFadingOut) return
+    setIsFadingOut(true)
+    fadeTimerRef.current = setTimeout(() => {
+      setIsLoading(false)
+    }, 300)
+  }, [isFadingOut])
+
+  useEffect(() => {
+    const safetyTimeout = setTimeout(() => {
+      beginFadeOut()
+    }, 2500)
+    return () => {
+      clearTimeout(safetyTimeout)
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current)
+    }
+  }, [beginFadeOut])
+
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
@@ -287,6 +309,24 @@ export default function SlideDeck() {
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 font-mono text-xs text-zinc-500 hidden md:block">
         Use ← → keys or buttons to navigate
       </div>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div
+          className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-300 ${
+            isFadingOut ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <video
+            className="max-w-[520px] w-full"
+            src="/brand/aaspinning.mp4"
+            autoPlay
+            muted
+            playsInline
+            onEnded={beginFadeOut}
+          />
+        </div>
+      )}
     </div>
   )
 }
